@@ -52,13 +52,14 @@ jobs:
         git clone https://github.com/curl/curl.git
         cd curl
         mkdir -p build
+        mkdir -p ~/lib/curl
         cd build
         cmake \
         -D BUILD_CURL_EXE=OFF \
         -D BUILD_SHARED_LIBS=OFF \
         -D BUILD_TESTING=OFF \
         -D CMAKE_BUILD_TYPE=RELEASE \
-        -D CMAKE_INSTALL_PREFIX=/root/lib/curl \
+        -D CMAKE_INSTALL_PREFIX=~/lib/curl \
         -D CURL_ENABLE_SSL=ON \
         -D ENABLE_DEBUG=OFF \
         -D CURL_USE_OPENSSL=OFF \
@@ -71,10 +72,11 @@ jobs:
         cd libevent
         mkdir -p build
         cd build
+        mkdir -p ~/lib/libevent
         cmake \
         -D EVENT__LIBRARY_TYPE=STATIC \
         -D CMAKE_BUILD_TYPE=Release \
-        -D CMAKE_INSTALL_PREFIX=/root/lib/libevent \
+        -D CMAKE_INSTALL_PREFIX=~/lib/libevent \
         -D EVENT__DISABLE_BENCHMARK=ON \
         -D EVENT__DISABLE_DEBUG_MODE=ON \
         -D EVENT__DISABLE_TESTS=ON \
@@ -125,12 +127,9 @@ jobs:
         ls
         mkdir -p ~/lib/ffmpeg
 
-        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/lib/x264/lib
-        echo "13.1 pass export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/lib/x264/lib"
-        export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:~/lib/x264/lib/pkgconfig
-        echo "13.1 pass PKG_CONFIG_PATH=$PKG_CONFIG_PATH:~/lib/x264/lib/pkgconfig"
-        export PKG_CONFIG_LIBDIR=$PKG_CONFIG_LIBDIR:~/lib/x264/lib
-        echo "13.3 pass export PKG_CONFIG_LIBDIR=$PKG_CONFIG_LIBDIR:~/lib/x264/lib"
+        LD_LIBRARY_PATH=~/lib/x264/lib 
+        PKG_CONFIG_PATH=~/lib/x264/lib/pkgconfig 
+        PKG_CONFIG_LIBDIR=~/lib/x264/lib ./configure --prefix=~/lib/ffmpeg --enable-libx264 --enable-gpl
         cd ~/src/ffmpeg
         ./configure --prefix=~/lib/ffmpeg --enable-libx264 --enable-gpl
         echo "14. bat dau make ffmpeg"
