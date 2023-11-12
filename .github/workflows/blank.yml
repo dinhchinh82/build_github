@@ -44,7 +44,6 @@ jobs:
         pwd
         echo "tai khoan dang chay la:"
         sudo su
-        mkdir /chinh
         whoami
         cd /root
         mkdir -p lib src
