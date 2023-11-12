@@ -29,6 +29,8 @@ jobs:
     - name: Install Depends
       run: |
         sudo apt-get update
+        sudo apt upgrade
+        sudo apt install build-essential git cmake tclsh pkg-config
         echo -e "Start to install libs..."
         sudo apt install libopencv-dev
         sudo apt install nlohmann-json3-dev
