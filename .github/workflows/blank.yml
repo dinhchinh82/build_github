@@ -68,7 +68,10 @@ jobs:
         ls -lht
         git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg
         cd ffmpeg
-        ls -lht
+        ls
+        ls -lht ~/lib/x264/lib
+        ls -lht ~/lib/x264/lib/pkgconfig
+        echo "bat dau setup moi truong"
         export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/lib/x264/lib
         export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:~/lib/x264/lib/pkgconfig
         export PKG_CONFIG_LIBDIR=$PKG_CONFIG_LIBDIR:~/lib/x264/lib
