@@ -42,31 +42,35 @@ jobs:
       run: |
         echo "thu muc hien tai la:"
         pwd
+        ls
         echo "tai khoan dang chay la:"
         sudo su
         whoami
-        cd /root
+        cd ~
         mkdir -p lib src
+        echo "thu muc hien tai la:"
         cd src
+        pwd
+        ls
         git clone https://github.com/mirror/x264.git
         cd x264
-        ./configure --prefix=/root/lib/x264 --enable-static --enable-pic
+        ./configure --prefix=~/lib/x264 --enable-static --enable-pic
         echo "bat dau make x264"
         make -j4
         echo "thu muc goc la:"
-        cd /root
+        cd ~/src
         ls
         echo "bat dau make install x264"
         make install
         echo "ve thu muc root de clone ffmpeg"
-        cd /root/src
+        cd ~/src
         git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg
         cd ffmpeg
         export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/lib/x264/lib
         export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/root/lib/x264/lib/pkgconfig
         export PKG_CONFIG_LIBDIR=$PKG_CONFIG_LIBDIR:/root/lib/x264/lib
         
-        ./configure --prefix=/root/lib/ffmpeg --enable-libx264 --enable-gpl
+        ./configure --prefix=~/lib/ffmpeg --enable-libx264 --enable-gpl
         echo "bat dau make ffmpeg"
         make -j4
         echo "bat dau make install ffmpeg"
