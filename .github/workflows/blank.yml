@@ -21,7 +21,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v2
     # - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
@@ -29,8 +30,7 @@ jobs:
     - name: Install Depends
       run: |
         sudo apt-get update
-        sudo apt upgrade
-        sudo apt install build-essential git cmake tclsh pkg-config
+        sudo apt install build-essential git cmake tclsh pkg-config nasm
         echo -e "Start to install libs..."
         sudo apt install nlohmann-json3-dev
         sudo apt install libcurl4-gnutls-dev
@@ -41,7 +41,12 @@ jobs:
       # Build your program with the given configuration
       run: |
         mkdir -p lib src
-        cd src
+        git clone https://github.com/mirror/x264.git
+        cd x264
+        ./configure --prefix=/root/lib/x264 --enable-static --enable-pic
+        make -j8
+        make install
+        cd ..
         git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg
         cd ffmpeg
         export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/lib/x264/lib
