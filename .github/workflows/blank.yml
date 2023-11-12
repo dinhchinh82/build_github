@@ -86,10 +86,14 @@ jobs:
         cd ~/lib
         echo "13. cac thu muc trong ~/lib:"
         ls
+        mkdir -p ~/lib/ffmpeg
+
         export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/lib/x264/lib
+        echo "13.1 pass export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/lib/x264/lib"
         export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:~/lib/x264/lib/pkgconfig
+        echo "13.1 pass PKG_CONFIG_PATH=$PKG_CONFIG_PATH:~/lib/x264/lib/pkgconfig"
         export PKG_CONFIG_LIBDIR=$PKG_CONFIG_LIBDIR:~/lib/x264/lib
-        mkdir ~/lib/ffmpeg
+        echo "13.3 pass export PKG_CONFIG_LIBDIR=$PKG_CONFIG_LIBDIR:~/lib/x264/lib"
         ./configure --prefix=~/lib/ffmpeg --enable-libx264 --enable-gpl
         echo "14. bat dau make ffmpeg"
         make -j4
