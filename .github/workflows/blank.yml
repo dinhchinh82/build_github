@@ -40,7 +40,7 @@ jobs:
       shell: bash
       # Build your program with the given configuration
       run: |
-        echo "thu muc hien tai la:
+        echo "thu muc hien tai la:"
         pwd
         echo "tai khoan dang chay la:"
         whoami
