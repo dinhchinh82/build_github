@@ -68,9 +68,10 @@ jobs:
         ls -lht
         git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg
         cd ffmpeg
-        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/lib/x264/lib
-        export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/root/lib/x264/lib/pkgconfig
-        export PKG_CONFIG_LIBDIR=$PKG_CONFIG_LIBDIR:/root/lib/x264/lib
+        ls -lht
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/lib/x264/lib
+        export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:~/lib/x264/lib/pkgconfig
+        export PKG_CONFIG_LIBDIR=$PKG_CONFIG_LIBDIR:~/lib/x264/lib
         mkdir ~/lib/ffmpeg
         ./configure --prefix=~/lib/ffmpeg --enable-libx264 --enable-gpl
         echo "bat dau make ffmpeg"
