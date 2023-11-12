@@ -94,6 +94,7 @@ jobs:
         echo "13.1 pass PKG_CONFIG_PATH=$PKG_CONFIG_PATH:~/lib/x264/lib/pkgconfig"
         export PKG_CONFIG_LIBDIR=$PKG_CONFIG_LIBDIR:~/lib/x264/lib
         echo "13.3 pass export PKG_CONFIG_LIBDIR=$PKG_CONFIG_LIBDIR:~/lib/x264/lib"
+        cd ~/src/ffmpeg
         ./configure --prefix=~/lib/ffmpeg --enable-libx264 --enable-gpl
         echo "14. bat dau make ffmpeg"
         make -j4
