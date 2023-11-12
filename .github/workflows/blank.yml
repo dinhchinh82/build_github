@@ -40,19 +40,24 @@ jobs:
       shell: bash
       # Build your program with the given configuration
       run: |
-        echo "thu muc hien tai la:"
+        echo "thu muc hien tai la:
         pwd
+        echo "tai khoan dang chay la:"
+        whoami
         mkdir -p lib src
         cd src
         git clone https://github.com/mirror/x264.git
         cd x264
-        ./configure --prefix=/root/lib/x264 --enable-static --enable-pic
+        ./configure --prefix=$github_workspace/lib/x264 --enable-static --enable-pic
         echo "bat dau make x264"
         make -j4
+        echo "thu muc goc la:"
+        cd $github_workspace
+        ls
         echo "bat dau make install x264"
         make install
         echo "ve thu muc root de clone ffmpeg"
-        cd ~/src
+        cd $github_workspace/src
         git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg
         cd ffmpeg
         export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/lib/x264/lib
