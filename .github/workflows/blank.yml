@@ -48,8 +48,48 @@ jobs:
         whoami
         cd ~
         mkdir -p lib src
+        cd ~/src
+        git clone https://github.com/curl/curl.git
+
+        cd curl
+        mkdir build
+        rm -rf build
+        cd build
+        cmake \
+        -D BUILD_CURL_EXE=OFF \
+        -D BUILD_SHARED_LIBS=OFF \
+        -D BUILD_TESTING=OFF \
+        -D CMAKE_BUILD_TYPE=RELEASE \
+        -D CMAKE_INSTALL_PREFIX=/root/lib/curl \
+        -D CURL_ENABLE_SSL=ON \
+        -D ENABLE_DEBUG=OFF \
+        -D CURL_USE_OPENSSL=OFF \
+        ..
+        echo "bat dau build curl"
+        make -j4
+        make install
+        cd ~/src 
+        git clone https://github.com/libevent/libevent
+        cd libevent
+        rm -rf build
+        mkdir build
+        cd build
+        cmake \
+        -D EVENT__LIBRARY_TYPE=STATIC \
+        -D CMAKE_BUILD_TYPE=Release \
+        -D CMAKE_INSTALL_PREFIX=/root/lib/libevent \
+        -D EVENT__DISABLE_BENCHMARK=ON \
+        -D EVENT__DISABLE_DEBUG_MODE=ON \
+        -D EVENT__DISABLE_TESTS=ON \
+        -D EVENT__DISABLE_OPENSSL=ON \
+        -D EVENT__DISABLE_MBEDTLS=ON \
+        -D EVENT__DISABLE_SAMPLES=ON \
+        ..
+        echo "bat dau build libevent"
+        make -j4
+        make install
         echo "3. thu muc hien tai la:"
-        cd src
+        cd ~/src
         pwd
         ls
         git clone https://github.com/mirror/x264.git
