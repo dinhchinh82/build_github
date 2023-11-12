@@ -40,15 +40,15 @@ jobs:
       shell: bash
       # Build your program with the given configuration
       run: |
-        echo "thu muc hien tai la:"
+        echo "1. thu muc hien tai la:"
         pwd
         ls
-        echo "tai khoan dang chay la:"
+        echo "2. tai khoan dang chay la:"
         sudo su
         whoami
         cd ~
         mkdir -p lib src
-        echo "thu muc hien tai la:"
+        echo "3. thu muc hien tai la:"
         cd src
         pwd
         ls
@@ -56,30 +56,44 @@ jobs:
         cd x264
         mkdir -p ~/lib/x264
         ./configure --prefix=~/lib/x264 --enable-static --enable-pic
-        echo "bat dau make x264:"
+        echo "4. bat dau make x264:"
         make -j4
-        echo "bat dau make install x264"
+        echo "5. bat dau make install x264"
         make install
-        echo "thu muc goc la:"
+        echo "6. thu muc lib la:"
         cd ~/lib
         ls -lht
-        echo "ve thu muc root de clone ffmpeg"
+        echo "7. ve thu muc root de clone ffmpeg"
         cd ~/src
         ls -lht
         git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg
         cd ffmpeg
         ls
-        ls -lht ~/lib/x264/lib
-        ls -lht ~/lib/x264/lib/pkgconfig
-        echo "bat dau setup moi truong"
+        cd ~/lib/x264/lib
+        echo "8. cac thu muc trong ~/lib/x264/lib:"
+        ls
+        cd ~/lib/x264/lib/pkgconfig
+        echo "9. cac thu muc trong ~/lib/x264/lib/pkgconfig:"
+        ls
+        echo "10. bat dau setup moi truong"
+        cd ~/lib/x264/
+        echo "11. cac thu muc trong ~/lib/x264:"
+        ls
+
+        cd /home/runner/lib
+        echo "12. cac thu muc trong /home/runner/lib:"
+        ls
+        cd ~/lib
+        echo "13. cac thu muc trong ~/lib:"
+        ls
         export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/lib/x264/lib
         export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:~/lib/x264/lib/pkgconfig
         export PKG_CONFIG_LIBDIR=$PKG_CONFIG_LIBDIR:~/lib/x264/lib
         mkdir ~/lib/ffmpeg
         ./configure --prefix=~/lib/ffmpeg --enable-libx264 --enable-gpl
-        echo "bat dau make ffmpeg"
+        echo "14. bat dau make ffmpeg"
         make -j4
-        echo "bat dau make install ffmpeg"
+        echo "15. bat dau make install ffmpeg"
         make install
     # - name: Test
     #   working-directory: ${{github.workspace}}/build
