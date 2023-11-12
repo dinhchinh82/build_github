@@ -51,8 +51,7 @@ jobs:
         cd src
         git clone https://github.com/curl/curl.git
         cd curl
-        mkdir build
-        rm -rf build
+        mkdir -p build
         cd build
         cmake \
         -D BUILD_CURL_EXE=OFF \
@@ -70,8 +69,7 @@ jobs:
         cd ~/src 
         git clone https://github.com/libevent/libevent
         cd libevent
-        rm -rf build
-        mkdir build
+        mkdir -p build
         cd build
         cmake \
         -D EVENT__LIBRARY_TYPE=STATIC \
