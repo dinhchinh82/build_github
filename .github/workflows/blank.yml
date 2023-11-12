@@ -48,9 +48,8 @@ jobs:
         whoami
         cd ~
         mkdir -p lib src
-        cd ~/src
+        cd src
         git clone https://github.com/curl/curl.git
-
         cd curl
         mkdir build
         rm -rf build
