@@ -36,6 +36,8 @@ jobs:
           distro: ubuntu22.04
 
           run: |
+            sudo apt update
+            sudo apt install -y build-essential g++
             mkdir -p /home/runner/app
             g++ -o /home/runner/app/hello_world hello_world.cpp
 
