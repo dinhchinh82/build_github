@@ -35,7 +35,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y gcc-arm-linux-gnueabihf
           mkdir -p /home/runner/app
-          g++ -o /home/runner/app/hello_world hello_world.cpp
+          arm-linux-gnueabihf-g++ -o /home/runner/app/hello_world hello_world.cpp
 
       - name: Package application
         run: |
