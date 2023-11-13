@@ -3,12 +3,8 @@
 name: test build arm64 hello world
 
 on:
-  repository_dispatch:
-  workflow_dispatch:
-    inputs:
-      set_release:
-        description: "nhập version cần build"
-        default: ""
+  push:
+    branches: ["main"]
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
@@ -20,41 +16,34 @@ jobs:
     # You can convert this to a matrix build if you need cross-platform coverage.
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
     runs-on: ubuntu-22.04
-    container:
-      image: arm64v8/ubuntu:22.04
-      options: --user root
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v3
-    # - name: Configure CMake
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      # - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       # run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-    # - name: Set up Docker Buildx
-    #   uses: docker/setup-buildx-action@v1
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v1
 
-    - name: Install Depends
-      run: |
-        sudo apt-get update
-        sudo apt install build-essential g++
-    - name: build hello world for arm
-      shell: bash
-      # Build your program with the given configuration
-      run: |
-        mkdir -p /home/runner/app
-        g++ -o /home/runner/app/hello_world hello_world.cpp
-    - name: Package application
-      run: |
-        tar -zcvf /home/runner/hello.gz /home/runner/app
+      - name: Install Depends and build
+        run: |
+          sudo apt-get update
+          sudo apt install build-essential g++ gcc-aarch64-linux-gnu
+          mkdir -p /home/runner/app
+          g++ -o /home/runner/app/hello_world hello_world.cpp
 
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: your-app-artifacts
-        path: /home/runner/hello.gz # Replace with the path to your build artifacts
+      - name: Package application
+        run: |
+          tar -zcvf /home/runner/hello.gz /home/runner/app
 
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: your-app-artifacts
+          path: /home/runner/hello.gz # Replace with the path to your build artifacts
 
