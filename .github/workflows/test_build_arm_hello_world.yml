@@ -1,6 +1,6 @@
 # This starter workflow is for a CMake project running on a single platform. There is a different starter workflow if you need cross-platform coverage.
 # See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-multi-platform.yml
-name: test build arm64
+name: test build arm64 hello world
 
 on:
   repository_dispatch:
@@ -40,7 +40,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt install build-essential g++
-    - name: build x264 on arm
+    - name: build hello world for arm
       shell: bash
       # Build your program with the given configuration
       run: |
