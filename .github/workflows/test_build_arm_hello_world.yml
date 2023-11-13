@@ -31,9 +31,10 @@ jobs:
       #   uses: docker/setup-buildx-action@v1
 
       - name: Install Depends and build
+        uses: docker://arm64v8/ubuntu:22.04
         run: |
           sudo apt-get update
-          sudo apt install build-essential g++ gcc-aarch64-linux-gnu
+          sudo apt install build-essential g++
           mkdir -p /home/runner/app
           g++ -o /home/runner/app/hello_world hello_world.cpp
 
