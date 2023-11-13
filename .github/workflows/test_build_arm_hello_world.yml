@@ -32,7 +32,7 @@ jobs:
       - uses: uraimo/run-on-arch-action@v2
         name: Install Depends and build
         with:
-          arch: armv8
+          arch: aarch64
           distro: ubuntu22.04
 
           run: |
