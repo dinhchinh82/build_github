@@ -1,0 +1,83 @@
+# This starter workflow is for a CMake project running on a single platform. There is a different starter workflow if you need cross-platform coverage.
+# See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-multi-platform.yml
+name: test cache CMake on a single platform
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+    inputs:
+      set_release:
+        description: "nhập version cần build"
+        default: ""
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
+    # You can convert this to a matrix build if you need cross-platform coverage.
+    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+    runs-on: ubuntu-22.04
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v2
+    # - name: Configure CMake
+      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
+      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+      # run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+    - name: Install Depends
+      run: |
+        sudo apt-get update
+        sudo apt install build-essential git cmake tclsh pkg-config nasm
+    - name: Cache libs
+      uses: actions/cache@v3
+      with:
+        path: |
+          /home/runner/lib
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-}}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+    - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+      name: build x264 if no cache hit
+      shell: bash
+      continue-on-error: true
+      # Build your program with the given configuration
+      run: |
+        mkdir -p lib src
+        cd /home/runner/src
+        mkdir -p /home/runner/lib/x264
+        git clone --depth 1 https://github.com/mirror/x264.git
+        cd x264
+        ./configure --prefix=/home/runner/lib/x264 --enable-static --enable-pic
+        echo "4. bat dau make x264:"
+        make -j4
+        echo "5. bat dau make install x264"
+        make install
+    - name: Build ffmpeg
+      shell: bash
+      # Build your program with the given configuration
+      run: |
+        echo "7. ve thu muc root de clone ffmpeg"
+        cd /home/runner/src
+        ls -lht
+        git clone --depth 1 https://git.ffmpeg.org/ffmpeg.git ffmpeg
+        cd ffmpeg    
+        mkdir -p /home/runner/lib/ffmpeg
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/runner/lib/x264/lib
+        export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/home/runner/lib/x264/lib/pkgconfig
+        export PKG_CONFIG_LIBDIR=$PKG_CONFIG_LIBDIR:/home/runner/lib/x264/lib
+
+        echo "14. bat dau make ffmpeg"
+        ./configure --prefix=/home/runner/lib/ffmpeg --enable-libx264 --enable-gpl
+        echo "14. bat dau make ffmpeg"
+        make -j4
+        echo "15. bat dau make install ffmpeg"
+        make install
+
+
