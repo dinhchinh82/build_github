@@ -99,36 +99,17 @@ jobs:
         make -j4
         echo "5. bat dau make install x264"
         make install
-        echo "6. thu muc lib la:"
-        cd /home/runner/lib
-        ls -lht
+        
         echo "7. ve thu muc root de clone ffmpeg"
         cd /home/runner/src
         ls -lht
         git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg
-        cd ffmpeg
-        ls
-        cd /home/runner/lib/x264/lib
-        echo "8. cac thu muc trong /home/runner/lib/x264/lib:"
-        ls
-        cd /home/runner/lib/x264/lib/pkgconfig
-        echo "9. cac thu muc trong /home/runner/lib/x264/lib/pkgconfig:"
-        ls
-        echo "10. bat dau setup moi truong"
-        cd /home/runner/lib/x264/
-        echo "11. cac thu muc trong /home/runner/lib/x264:"
-        ls
-        cd /home/runner/lib
-        echo "12. cac thu muc trong /home/runner/lib:"
-        ls
-        cd /home/runner/lib
-        echo "13. cac thu muc trong /home/runner/lib:"
-        ls
+        cd ffmpeg    
         mkdir -p /home/runner/lib/ffmpeg
-
         export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/runner/lib/x264/lib
         export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/home/runner/lib/x264/lib/pkgconfig
         export PKG_CONFIG_LIBDIR=$PKG_CONFIG_LIBDIR:/home/runner/lib/x264/lib
+
         echo "14. bat dau make ffmpeg"
         ./configure --prefix=/home/runner/lib/ffmpeg --enable-libx264 --enable-gpl
         echo "14. bat dau make ffmpeg"
