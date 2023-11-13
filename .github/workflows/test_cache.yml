@@ -49,6 +49,8 @@ jobs:
       continue-on-error: true
       # Build your program with the given configuration
       run: |
+        cd ~
+        ls
         mkdir -p lib src
         cd /home/runner/src
         mkdir -p /home/runner/lib/x264
