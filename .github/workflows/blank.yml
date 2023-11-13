@@ -126,11 +126,11 @@ jobs:
         ls
         mkdir -p /home/runner/lib/ffmpeg
 
-        LD_LIBRARY_PATH=/home/runner/lib/x264/lib 
-        PKG_CONFIG_PATH=/home/runner/lib/x264/lib/pkgconfig 
-        PKG_CONFIG_LIBDIR=/home/runner/lib/x264/lib 
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/runner/lib/x264/lib
+        export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/home/runner/lib/x264/lib/pkgconfig
+        export PKG_CONFIG_LIBDIR=$PKG_CONFIG_LIBDIR:/home/runner/lib/x264/lib
         echo "14. bat dau make ffmpeg"
-        /home/runner/src/ffmpeg/configure --prefix=/home/runner/lib/ffmpeg --enable-libx264 --enable-gpl
+        ./configure --prefix=/home/runner/lib/ffmpeg --enable-libx264 --enable-gpl
         echo "14. bat dau make ffmpeg"
         make -j4
         echo "15. bat dau make install ffmpeg"
