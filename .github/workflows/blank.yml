@@ -52,14 +52,14 @@ jobs:
         git clone https://github.com/curl/curl.git
         cd curl
         mkdir -p build
-        mkdir -p ~/lib/curl
+        mkdir -p /home/runner/lib/curl
         cd build
         cmake \
         -D BUILD_CURL_EXE=OFF \
         -D BUILD_SHARED_LIBS=OFF \
         -D BUILD_TESTING=OFF \
         -D CMAKE_BUILD_TYPE=RELEASE \
-        -D CMAKE_INSTALL_PREFIX=~/lib/curl \
+        -D CMAKE_INSTALL_PREFIX=/home/runner/lib/curl \
         -D CURL_ENABLE_SSL=ON \
         -D ENABLE_DEBUG=OFF \
         -D CURL_USE_OPENSSL=OFF \
@@ -67,16 +67,16 @@ jobs:
         echo "bat dau build curl"
         make -j4
         make install
-        cd ~/src 
+        cd /home/runner/src 
         git clone https://github.com/libevent/libevent
         cd libevent
         mkdir -p build
         cd build
-        mkdir -p ~/lib/libevent
+        mkdir -p /home/runner/lib/libevent
         cmake \
         -D EVENT__LIBRARY_TYPE=STATIC \
         -D CMAKE_BUILD_TYPE=Release \
-        -D CMAKE_INSTALL_PREFIX=~/lib/libevent \
+        -D CMAKE_INSTALL_PREFIX=/home/runner/lib/libevent \
         -D EVENT__DISABLE_BENCHMARK=ON \
         -D EVENT__DISABLE_DEBUG_MODE=ON \
         -D EVENT__DISABLE_TESTS=ON \
@@ -88,50 +88,49 @@ jobs:
         make -j4
         make install
         echo "3. thu muc hien tai la:"
-        cd ~/src
+        cd /home/runner/src
         pwd
         ls
+        mkdir -p /home/runner/lib/x264
         git clone https://github.com/mirror/x264.git
         cd x264
-        mkdir -p ~/lib/x264
-        ./configure --prefix=~/lib/x264 --enable-static --enable-pic
+        ./configure --prefix=/home/runner/lib/x264 --enable-static --enable-pic
         echo "4. bat dau make x264:"
         make -j4
         echo "5. bat dau make install x264"
         make install
         echo "6. thu muc lib la:"
-        cd ~/lib
+        cd /home/runner/lib
         ls -lht
         echo "7. ve thu muc root de clone ffmpeg"
-        cd ~/src
+        cd /home/runner/src
         ls -lht
         git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg
         cd ffmpeg
         ls
-        cd ~/lib/x264/lib
-        echo "8. cac thu muc trong ~/lib/x264/lib:"
+        cd /home/runner/lib/x264/lib
+        echo "8. cac thu muc trong /home/runner/lib/x264/lib:"
         ls
-        cd ~/lib/x264/lib/pkgconfig
-        echo "9. cac thu muc trong ~/lib/x264/lib/pkgconfig:"
+        cd /home/runner/lib/x264/lib/pkgconfig
+        echo "9. cac thu muc trong /home/runner/lib/x264/lib/pkgconfig:"
         ls
         echo "10. bat dau setup moi truong"
-        cd ~/lib/x264/
-        echo "11. cac thu muc trong ~/lib/x264:"
+        cd /home/runner/lib/x264/
+        echo "11. cac thu muc trong /home/runner/lib/x264:"
         ls
-
         cd /home/runner/lib
         echo "12. cac thu muc trong /home/runner/lib:"
         ls
-        cd ~/lib
-        echo "13. cac thu muc trong ~/lib:"
+        cd /home/runner/lib
+        echo "13. cac thu muc trong /home/runner/lib:"
         ls
-        mkdir -p ~/lib/ffmpeg
+        mkdir -p /home/runner/lib/ffmpeg
 
-        LD_LIBRARY_PATH=~/lib/x264/lib 
-        PKG_CONFIG_PATH=~/lib/x264/lib/pkgconfig 
-        PKG_CONFIG_LIBDIR=~/lib/x264/lib ./configure --prefix=~/lib/ffmpeg --enable-libx264 --enable-gpl
-        cd ~/src/ffmpeg
-        ./configure --prefix=~/lib/ffmpeg --enable-libx264 --enable-gpl
+        LD_LIBRARY_PATH=/home/runner/lib/x264/lib 
+        PKG_CONFIG_PATH=/home/runner/lib/x264/lib/pkgconfig 
+        PKG_CONFIG_LIBDIR=/home/runner/lib/x264/lib 
+        echo "14. bat dau make ffmpeg"
+        /home/runner/src/ffmpeg/configure --prefix=/home/runner/lib/ffmpeg --enable-libx264 --enable-gpl
         echo "14. bat dau make ffmpeg"
         make -j4
         echo "15. bat dau make install ffmpeg"
