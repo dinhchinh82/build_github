@@ -66,21 +66,6 @@ jobs:
       shell: bash
       # Build your program with the given configuration
       run: |
-        echo "7. ve thu muc root de clone ffmpeg"
-        cd /home/runner/src
-        ls -lht
-        git clone --depth 1 https://git.ffmpeg.org/ffmpeg.git ffmpeg
-        cd ffmpeg    
-        mkdir -p /home/runner/lib/ffmpeg
-        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/runner/lib/x264/lib
-        export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/home/runner/lib/x264/lib/pkgconfig
-        export PKG_CONFIG_LIBDIR=$PKG_CONFIG_LIBDIR:/home/runner/lib/x264/lib
-
-        echo "14. bat dau make ffmpeg"
-        ./configure --prefix=/home/runner/lib/ffmpeg --enable-libx264 --enable-gpl
-        echo "14. bat dau make ffmpeg"
-        make -j4
-        echo "15. bat dau make install ffmpeg"
-        make install
+        echo "7. da test cache thanh cong"
 
 
