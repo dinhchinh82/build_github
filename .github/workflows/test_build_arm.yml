@@ -41,13 +41,12 @@ jobs:
     - name: Install Depends
       run: |
         sudo apt-get update
-        sudo apt install build-essential git cmake tclsh pkg-config nasm
+        sudo apt install build-essential git cmake pkg-config nasm
     - name: build x264 on arm
       shell: bash
       # Build your program with the given configuration
       run: |
         cd ~
-        ls
         mkdir -p lib src
         cd /home/runner/src
         mkdir -p /home/runner/lib/x264
@@ -58,10 +57,14 @@ jobs:
         make -j4
         echo "5. bat dau make install x264"
         make install
-    - name: Build ffmpeg
-      shell: bash
-      # Build your program with the given configuration
+    - name: Package application
       run: |
-        echo "7. da test cache thanh cong"
+        tar -zcvf /home/runner/lib.tar.gz /home/runner/lib
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: your-app-artifacts
+        path: /home/runner/lib.tar.gz # Replace with the path to your build artifacts
 
 
