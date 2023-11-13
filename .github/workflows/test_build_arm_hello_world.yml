@@ -29,13 +29,15 @@ jobs:
       # run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
       # - name: Set up Docker Buildx
       #   uses: docker/setup-buildx-action@v1
+      - uses: uraimo/run-on-arch-action@v2
+        name: Install Depends and build
+        with:
+          arch: armv8
+          distro: ubuntu22.04
 
-      - name: Install Depends and build
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-arm-linux-gnueabihf
-          mkdir -p /home/runner/app
-          arm-linux-gnueabihf-g++ -o /home/runner/app/hello_world hello_world.cpp
+          run: |
+            mkdir -p /home/runner/app
+            g++ -o /home/runner/app/hello_world hello_world.cpp
 
       - name: Package application
         run: |
