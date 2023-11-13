@@ -46,7 +46,7 @@ jobs:
           ${{ runner.os }}-build-${{ env.cache-name }}-
           ${{ runner.os }}-build-
           ${{ runner.os }}-
-    - if: ${{ steps.cache-x264.outputs.cache-hit != 'true' }}
+    - if: ${{ steps.cache-x264.outputs.cache-hit != 'dung' }}
       name: build x264 if no cache hit
       shell: bash
       continue-on-error: true
