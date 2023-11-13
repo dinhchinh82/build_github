@@ -35,9 +35,11 @@ jobs:
         run: |
           # apt update
           # apt install -y build-essential g++
+          g++ --version
           sudo apt update
           sudo apt install -y build-essential g++-aarch64-linux-gnu
           export CC=arm-linux-gnueabihf-g++
+          g++ --version
           mkdir -p /home/runner/app
           g++ -o /home/runner/app/hello_world hello_world.cpp
 
