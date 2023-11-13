@@ -25,6 +25,9 @@ jobs:
     - uses: actions/checkout@v3
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
+      with:
+        context: .
+        platforms: arm64
     # - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
@@ -39,7 +42,7 @@ jobs:
       with:
         path: |
           /home/runner/lib
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-}}
+        key: ${{ runner.os }}-build-${{ env.cache-name }}
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
           ${{ runner.os }}-build-
