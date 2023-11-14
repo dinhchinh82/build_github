@@ -25,21 +25,12 @@ jobs:
         uses: docker/setup-qemu-action@v3
         with:
           platforms: arm64
-      # - name: Configure CMake
-      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
-      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      # run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-      # - name: Set up Docker Buildx
-      #   uses: docker/setup-buildx-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
       - name: Build
         run: |
-          # apt update
-          # apt install -y build-essential g++
-          g++ --version
           sudo apt update
-          sudo apt install -y build-essential g++-aarch64-linux-gnu
-          export CC=arm-linux-gnueabihf-g++
-          g++ --version
+          sudo apt install -y build-essential
           mkdir -p /home/runner/app
           g++ -o /home/runner/app/hello_world hello_world.cpp
 
