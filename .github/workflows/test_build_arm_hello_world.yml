@@ -21,6 +21,7 @@ jobs:
           arch: aarch64
           distro: ubuntu22.04
           setup: |
+            pwd
             mkdir -p "${PWD}/artifacts"
           dockerRunArgs: |
             --volume "${PWD}/artifacts:/artifacts"
@@ -35,7 +36,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: hello_world
-          path: ${PWD}/artifacts
+          path: "${PWD}/artifacts"
 
       # - name: Set up QEMU
       #   uses: docker/setup-qemu-action@v3
