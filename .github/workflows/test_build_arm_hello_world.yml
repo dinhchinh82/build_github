@@ -36,7 +36,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: hello_world
-          path: "${PWD}/artifacts"
+          path: ${PWD}/artifacts/hello_world
 
       # - name: Set up QEMU
       #   uses: docker/setup-qemu-action@v3
