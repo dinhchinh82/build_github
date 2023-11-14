@@ -30,6 +30,7 @@ jobs:
           run: |
             ls -la
             g++ -o /artifacts/hello_world hello_world.cpp
+            la -la /artifacts
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
