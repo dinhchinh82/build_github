@@ -1,5 +1,3 @@
-# This starter workflow is for a CMake project running on a single platform. There is a different starter workflow if you need cross-platform coverage.
-# See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-multi-platform.yml
 name: test build arm64 hello world
 
 on:
@@ -12,35 +10,51 @@ env:
 
 jobs:
   build:
-    # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
-    # You can convert this to a matrix build if you need cross-platform coverage.
-    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
     runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+      - uses: uraimo/run-on-arch-action@v2
+        name: Build
         with:
-          platforms: arm64
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      - name: Build
-        run: |
-          sudo apt update
-          sudo apt install -y build-essential
-          mkdir -p /home/runner/app
-          g++ -o /home/runner/app/hello_world hello_world.cpp
-
-      - name: Package application
-        run: |
-          tar -zcvf /home/runner/hello.gz /home/runner/app
-
+          arch: aarch64
+          distro: ubuntu22.04
+          setup: |
+            mkdir -p "${PWD}/artifacts"
+          dockerRunArgs: |
+            --volume "${PWD}/artifacts:/artifacts"
+          install: |
+            apt update
+            apt install -y build-essential g++
+          run: |
+            ls -la
+            g++ -o /artifacts/hello_world hello_world.cpp
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: your-app-artifacts
-          path: /home/runner/hello.gz # Replace with the path to your build artifacts
+          name: hello_world
+          path: ${PWD}/artifacts
 
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v3
+      #   with:
+      #     platforms: arm64
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v3
+      # - name: Build
+      #   run: |
+      #     sudo apt update
+      #     sudo apt install -y build-essential
+      #     mkdir -p /home/runner/app
+      #     g++ -o /home/runner/app/hello_world hello_world.cpp
+
+      # - name: Package application
+      #   run: |
+      #     tar -zcvf /home/runner/hello.gz /home/runner/app
+
+      # - name: Upload artifacts
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: your-app-artifacts
+      #     path: /home/runner/hello.gz # Replace with the path to your build artifacts
