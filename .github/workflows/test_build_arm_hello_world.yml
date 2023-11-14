@@ -32,11 +32,14 @@ jobs:
             ls -la
             g++ -o /artifacts/hello_world hello_world.cpp
             ls -la /artifacts
+      - name: Show the artifact
+        run: |
+          ls -la "${PWD}/artifacts"
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: hello_world
-          path: ${PWD}/artifacts/hello_world
+          path: "${PWD}/artifacts"
 
       # - name: Set up QEMU
       #   uses: docker/setup-qemu-action@v3
