@@ -4,10 +4,6 @@ on:
   push:
     branches: ["main"]
 
-env:
-  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-  BUILD_TYPE: Release
-
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -39,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: hello_world
-          path: "${PWD}/artifacts"
+          path: artifacts
 
       # - name: Set up QEMU
       #   uses: docker/setup-qemu-action@v3
