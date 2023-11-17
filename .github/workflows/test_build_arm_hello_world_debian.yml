@@ -1,0 +1,61 @@
+name: test build arm64 hello world on debian
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - uses: uraimo/run-on-arch-action@v2
+        name: Build
+        with:
+          arch: aarch64
+          distro: bullseye
+          setup: |
+            pwd
+            mkdir -p "${PWD}/artifacts"
+          dockerRunArgs: |
+            --volume "${PWD}/artifacts:/artifacts"
+          install: |
+            apt update
+            apt install -y build-essential g++
+          run: |
+            ls -la
+            g++ -o /artifacts/hello_world hello_world.cpp
+            ls -la /artifacts
+      - name: Show the artifact
+        run: |
+          ls -la "${PWD}/artifacts"
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: hello_world
+          path: artifacts
+
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v3
+      #   with:
+      #     platforms: arm64
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v3
+      # - name: Build
+      #   run: |
+      #     sudo apt update
+      #     sudo apt install -y build-essential
+      #     mkdir -p /home/runner/app
+      #     g++ -o /home/runner/app/hello_world hello_world.cpp
+
+      # - name: Package application
+      #   run: |
+      #     tar -zcvf /home/runner/hello.gz /home/runner/app
+
+      # - name: Upload artifacts
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: your-app-artifacts
+      #     path: /home/runner/hello.gz # Replace with the path to your build artifacts
